@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:esp32_repository/esp32_repository.dart';
 
+import 'package:esp32_wifi_controller/socket_connection/socket_connection.dart';
+
 class App extends StatelessWidget {
   final Esp32Repository esp32Repository;
 
@@ -20,7 +22,7 @@ class AppView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Container(),
+      home: const SocketConnectionPage(),
     );
   }
 }
