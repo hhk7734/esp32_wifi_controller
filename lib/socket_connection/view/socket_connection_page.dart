@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:esp32_repository/esp32_repository.dart';
 
 import 'package:esp32_wifi_controller/socket_connection/socket_connection.dart';
 
@@ -17,7 +18,8 @@ class SocketConnectionPage extends StatelessWidget {
         title: Text("Connection"),
       ),
       body: BlocProvider(
-        create: (_) => SocketConnectionCubit(),
+        create: (_) => SocketConnectionCubit(
+            esp32Repository: RepositoryProvider.of<Esp32Repository>(context)),
         child: SocketConnectionForm(),
       ),
     );
