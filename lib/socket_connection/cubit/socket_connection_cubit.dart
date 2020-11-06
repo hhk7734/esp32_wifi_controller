@@ -29,11 +29,10 @@ class SocketConnectionCubit extends Cubit<SocketConnectionState> {
   Future<void> connect() async {
     if (!state.status.isValidated) return;
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
-    try {
-      await _esp32Repository.connect(
-          ip: state.ipv4.value, port: state.port.value);
+    if (await _esp32Repository.connect(
+        ip: state.ipv4.value, port: state.port.value)) {
       emit(state.copyWith(status: FormzStatus.submissionSuccess));
-    } on Exception {
+    } else {
       emit(state.copyWith(status: FormzStatus.submissionFailure));
     }
   }
