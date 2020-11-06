@@ -12,7 +12,7 @@ class SocketConnectionForm extends StatelessWidget {
       },
       child: Column(
         children: [
-          _IpInput(),
+          _IPv4Input(),
           const SizedBox(
             height: 10,
           ),
@@ -27,12 +27,22 @@ class SocketConnectionForm extends StatelessWidget {
   }
 }
 
-class _IpInput extends StatelessWidget {
+class _IPv4Input extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SocketConnectionCubit, SocketConnectionState>(
+      buildWhen: (previous, current) => previous.ipv4 != current.ipv4,
       builder: (context, state) {
-        return TextField();
+        return TextField(
+          onChanged: (ipv4) =>
+              context.bloc<SocketConnectionCubit>().ipv4Changed(ipv4),
+          keyboardType: TextInputType.url,
+          decoration: InputDecoration(
+            labelText: 'IPv4',
+            helperText: '',
+            errorText: state.ipv4.invalid ? 'ex) 192.168.4.1' : null,
+          ),
+        );
       },
     );
   }
