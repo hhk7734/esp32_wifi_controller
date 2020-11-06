@@ -1,0 +1,9 @@
+name: esp32_repository
+description: Dart package which manages the ESP32 communication.
+version: 0.1.0
+
+environment:
+  sdk: ">=1.19.0 <3.0.0"
+
+dependencies:
+  meta: ^1.2.3
