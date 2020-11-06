@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
 
 import 'package:esp32_wifi_controller/socket_connection/socket_connection.dart';
 
@@ -8,7 +9,13 @@ class SocketConnectionForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<SocketConnectionCubit, SocketConnectionState>(
       listener: (context, state) {
-        // TODO
+        if (state.status.isSubmissionFailure) {
+          Scaffold.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              const SnackBar(content: Text('Connection Failure')),
+            );
+        }
       },
       child: Column(
         children: [
@@ -74,11 +81,16 @@ class _ConnectButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SocketConnectionCubit, SocketConnectionState>(
+      buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {
-        return RaisedButton(
-          child: const Text("Connect"),
-          onPressed: null,
-        );
+        return state.status.isSubmissionInProgress
+            ? const CircularProgressIndicator()
+            : RaisedButton(
+                child: const Text("Connect"),
+                onPressed: state.status.isValidated
+                    ? () => context.bloc<SocketConnectionCubit>().connect()
+                    : null,
+              );
       },
     );
   }
