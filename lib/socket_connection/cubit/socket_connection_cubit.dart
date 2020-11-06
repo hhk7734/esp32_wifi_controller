@@ -16,6 +16,13 @@ class SocketConnectionCubit extends Cubit<SocketConnectionState> {
 
   void ipv4Changed(String value) {
     final ipv4 = IPv4.dirty(value);
-    emit(state.copyWith(ipv4: ipv4, status: Formz.validate([ipv4])));
+    emit(
+        state.copyWith(ipv4: ipv4, status: Formz.validate([ipv4, state.port])));
+  }
+
+  void portChanged(int value) {
+    final port = Port.dirty(value);
+    emit(
+        state.copyWith(port: port, status: Formz.validate([state.ipv4, port])));
   }
 }

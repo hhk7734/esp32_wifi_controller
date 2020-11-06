@@ -52,8 +52,19 @@ class _PortInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SocketConnectionCubit, SocketConnectionState>(
+      buildWhen: (previous, current) => previous.port != current.port,
       builder: (context, state) {
-        return TextField();
+        return TextField(
+          onChanged: (port) => context
+              .bloc<SocketConnectionCubit>()
+              .portChanged(int.parse(port)),
+          keyboardType: TextInputType.number,
+          decoration: InputDecoration(
+            labelText: 'Port',
+            helperText: '',
+            errorText: state.port.invalid ? 'ex) 80' : null,
+          ),
+        );
       },
     );
   }
