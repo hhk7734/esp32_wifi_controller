@@ -19,10 +19,12 @@ class ControlPadPage extends StatelessWidget {
         child: BlocConsumer<ControlPadCubit, ControlPadState>(
           listener: (context, state) {
             if (state is ControlPadDisconnectSuccess) {
+              BlocProvider.of<ControlPadCubit>(context).timerStop();
               Navigator.pop(context);
             }
           },
           builder: (context, state) {
+            BlocProvider.of<ControlPadCubit>(context).timerStart();
             return WillPopScope(
               child: Scaffold(
                 body: SafeArea(
