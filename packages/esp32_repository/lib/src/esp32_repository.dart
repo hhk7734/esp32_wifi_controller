@@ -6,7 +6,7 @@ import 'package:meta/meta.dart';
 enum Esp32Status { unknown, connected, disconnected }
 
 class Esp32Repository {
-  final _controller = StreamController<Esp32Status>();
+  final _controller = StreamController<Esp32Status>.broadcast();
   Socket _clientSocket = null;
 
   Stream<Esp32Status> get status async* {
@@ -25,7 +25,7 @@ class Esp32Repository {
       _clientSocket.listen(
         (data) => print("data: $data"),
         onError: (e) => print("error: $e"),
-        onDone: () => disconnect(),
+        onDone: () => _disconnect(),
       );
       _controller.add(Esp32Status.connected);
       return true;
@@ -36,7 +36,10 @@ class Esp32Repository {
   }
 
   void disconnect() {
-    print("disconnected");
+    _clientSocket?.destroy();
+  }
+
+  void _disconnect() {
     _clientSocket?.destroy();
     _clientSocket = null;
     _controller.add(Esp32Status.disconnected);

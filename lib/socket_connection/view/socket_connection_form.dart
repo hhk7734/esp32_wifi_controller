@@ -3,18 +3,25 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 
 import 'package:esp32_wifi_controller/socket_connection/socket_connection.dart';
+import 'package:esp32_wifi_controller/control_pad/control_pad.dart';
 
 class SocketConnectionForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<SocketConnectionCubit, SocketConnectionState>(
       listener: (context, state) {
-        if (state.status.isSubmissionFailure) {
-          Scaffold.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              const SnackBar(content: Text('Connection Failure')),
-            );
+        switch (state.status) {
+          case FormzStatus.submissionFailure:
+            Scaffold.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                const SnackBar(content: Text('Connection Failure')),
+              );
+            break;
+          case FormzStatus.submissionSuccess:
+            Navigator.push(context, ControlPadPage.route());
+            break;
+          default:
         }
       },
       child: Column(
