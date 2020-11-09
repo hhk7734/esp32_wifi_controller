@@ -50,7 +50,7 @@ class _IPv4Input extends StatelessWidget {
         return TextField(
           onChanged: (ipv4) =>
               context.bloc<SocketConnectionCubit>().ipv4Changed(ipv4),
-          keyboardType: TextInputType.url,
+          keyboardType: TextInputType.number,
           decoration: InputDecoration(
             labelText: 'IPv4',
             helperText: '',
