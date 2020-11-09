@@ -46,8 +46,8 @@ class Esp32Repository {
   }
 
   Future<void> write(data) async {
-    _clientSocket.write(data);
-    await _clientSocket.flush();
+    _clientSocket?.write(data);
+    await _clientSocket?.flush();
   }
 
   void dispose() {
