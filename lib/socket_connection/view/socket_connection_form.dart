@@ -49,7 +49,7 @@ class _IPv4Input extends StatelessWidget {
       builder: (context, state) {
         return TextField(
           onChanged: (ipv4) =>
-              context.bloc<SocketConnectionCubit>().ipv4Changed(ipv4),
+              context.read<SocketConnectionCubit>().ipv4Changed(ipv4),
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
             labelText: 'IPv4',
@@ -70,7 +70,7 @@ class _PortInput extends StatelessWidget {
       builder: (context, state) {
         return TextField(
           onChanged: (port) => context
-              .bloc<SocketConnectionCubit>()
+              .read<SocketConnectionCubit>()
               .portChanged(int.parse(port)),
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
@@ -95,7 +95,7 @@ class _ConnectButton extends StatelessWidget {
             : RaisedButton(
                 child: const Text("Connect"),
                 onPressed: state.status.isValidated
-                    ? () => context.bloc<SocketConnectionCubit>().connect()
+                    ? () => context.read<SocketConnectionCubit>().connect()
                     : null,
               );
       },
