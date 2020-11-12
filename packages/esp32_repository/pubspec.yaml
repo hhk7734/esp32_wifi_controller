@@ -7,3 +7,4 @@ environment:
 
 dependencies:
   meta: ^1.2.3
+  flutter_blue: ^0.7.3
